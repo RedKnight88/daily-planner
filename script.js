@@ -4,17 +4,10 @@
 $(function () {
 
   var today = dayjs();
+  var currentTime = Number(today.format("HH"));
   var saveBtnEl = $('.saveBtn');
   var containerEl = $('.container-lg');
-  // render the textareas with info from localstorage, remove / update time based classes
 
-  for (i = 9; i < 18; i++) {
-    var hour = "hour-" + i;
-    var plannerEntry = $(containerEl.children().eq(i-9).children().eq(1)[0]);
-    console.log(plannerEntry);
-    console.log(hour)
-    plannerEntry.text(localStorage.getItem(hour));
-  }
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -35,11 +28,29 @@ $(function () {
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
-  //
+  
+
+
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
-  //
+
+  for (i = 9; i < 18; i++) {
+    var hour = "hour-" + i;
+    var plannerEntry = $(containerEl.children().eq(i-9).children().eq(1)[0]);
+    plannerEntry.text(localStorage.getItem(hour));
+    var difference = i - currentTime;
+    console.log(difference);
+    var blockEl = $(containerEl.children().eq(i-9));
+    if (difference > 0) {
+      blockEl.attr('class', 'row time-block future')
+    } else if (difference === 0) {
+      blockEl.attr('class', 'row time-block present')
+    } else {
+      blockEl.attr('class', 'row time-block past')
+    }
+  }
+
   // TODO: Add code to display the current date in the header of the page.
   var currentDatEl = $("#currentDay");
 
