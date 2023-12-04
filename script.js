@@ -5,7 +5,16 @@ $(function () {
 
   var today = dayjs();
   var saveBtnEl = $('.saveBtn');
-  
+  var containerEl = $('.container-lg');
+  // render the textareas with info from localstorage, remove / update time based classes
+
+  for (i = 9; i < 18; i++) {
+    var hour = "hour-" + i;
+    var plannerEntry = $(containerEl.children().eq(i-9).children().eq(1)[0]);
+    console.log(plannerEntry);
+    console.log(hour)
+    plannerEntry.text(localStorage.getItem(hour));
+  }
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -19,7 +28,7 @@ $(function () {
     event.preventDefault();
     var parentEl = $(this).parent();
     var parentID = parentEl.attr('id');
-    console.log(parentID);
+    localStorage.setItem(parentID,parentEl.children('textarea').val())
   }
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
